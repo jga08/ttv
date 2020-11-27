@@ -1,0 +1,48 @@
+#!/bin/bash
+
+if [ -z "$1" ]
+  then
+    PAGE="100"
+elif [ "$1" = "a" ]
+  then
+    PAGE="343"
+elif [ "$1" = "s" ]
+  then
+    PAGE="358"
+elif [ "$1" = "v" ]
+  then
+    PAGE="406"
+else
+    PAGE="$1"
+fi
+
+RAW=$(curl -s "https://www.svt.se/svttext/web/pages/$PAGE.html")
+RAW=$(echo "$RAW" | sed -r 's/<!DOCTYPE.*//')
+RAW=$(echo "$RAW" | sed -r 's/<script>.*//')
+RAW=$(echo "$RAW" | sed -r 's/.*<pre class=\"root\">//')
+RAW=$(echo "$RAW" | sed -r 's/.*<\/pre>.*//')
+RAW=$(echo "$RAW" | sed -r 's/<a[^>]*>//g')
+RAW=$(echo "$RAW" | sed -r 's/<\/a>//g')
+RAW=$(echo "$RAW" | sed -r "s/<\/span>/\x1b[0m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"R\">/\x1b[31m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"G\">/\x1b[32m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"B\">/\x1b[34m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"C\">/\x1b[36m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"M\">/\x1b[35m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"Y\">/\x1b[33m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"W\">/\x1b[37m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"B bgB\">/\x1b[34;44m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"W bgB\">/\x1b[37;44m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"W bgB DH\">/\x1b[37;44m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"B bgBK\">/\x1b[34;0m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"Y bgB\">/\x1b[33;44m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"Y bgY\">/\x1b[33;43m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"B bgY\">/\x1b[34;43m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"R bgR\">/\x1b[31;41m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"B bgB DH\">/\x1b[34;44m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"Y bgB DH\">/\x1b[33;44m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"Y DH\">/\x1b[33m/g")
+RAW=$(echo "$RAW" | sed -r "s/<span class=\"DH\">/\x1b[0m/g")
+
+
+echo -e "$RAW"
