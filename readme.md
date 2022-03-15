@@ -1,4 +1,6 @@
 # ttv - SVT Text i terminalen
+### Uppdatering 2022-03-15: Fungerar inte sedan SVT bytt gränssnitt.
+
 Script som hämtar, parsar och visar upp text-tv sidor i terminalen. Utskrifterna är ett mellanting mellan web- och TV-lägena, vilket innebär bibevarad färgkodning från TV-läget men avsaknad av förekommande bild-element,t.ex. Sverigekartan i väderleken.
 
 ### Exempel
